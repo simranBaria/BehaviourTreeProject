@@ -19,6 +19,8 @@ public class HeroController : MonoBehaviour
 
     public float GetCurrentHealth() => health;
 
+    public float GetHealthPercentage() => GetCurrentHealth() / GetMaxHealth() * 100;
+
     public float GetMaxHealth() => HP;
 
     public void SetCurrentHealth(float health) { this.health = health; }
@@ -34,7 +36,7 @@ public class HeroController : MonoBehaviour
 
     public float GetAttack() => attack;
 
-    public void TakeDamage(float damage) { SetCurrentHealth(health - damage % defense); }
+    public void TakeDamage(float damage) { SetCurrentHealth(health - (damage - (defense / 100 * damage))); }
 
     // Just deactivate for now
     public void Die() { gameObject.SetActive(false); }
