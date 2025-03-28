@@ -6,7 +6,6 @@ namespace NodeCanvas.Tasks.Actions {
 
 	public class FindNearestTargetAT : ActionTask {
 
-		public LayerMask characterLayer;
 		public BBParameter<GameObject> target;
 
 		//Use for initialization. This is called only once in the lifetime of the task.
@@ -19,22 +18,25 @@ namespace NodeCanvas.Tasks.Actions {
 		//Call EndAction() to mark the action as finished, either in success or failure.
 		//EndAction can be called from anywhere.
 		protected override void OnExecute() {
-			Collider[] detectedObjects= Physics.OverlapSphere(agent.transform.position, 100, characterLayer);
+			Collider[] enemies;
+			if (agent.gameObject.layer == LayerMask.GetMask("Enemies")) enemies = Physics.OverlapSphere(agent.transform.position, Mathf.Infinity, LayerMask.GetMask("Allies"));
+			else enemies = Physics.OverlapSphere(agent.transform.position, Mathf.Infinity, LayerMask.GetMask("Enemies"));
+
 			GameObject nearestObject = null;
 			float shortestDistance = Mathf.Infinity;
 
-			foreach(Collider detectedObject in detectedObjects)
+			foreach(Collider enemy in enemies)
             {
-				float distance = Vector3.Distance(agent.transform.position, detectedObject.transform.position);
+				float distance = Vector3.Distance(agent.transform.position, enemy.transform.position);
 
 				if(distance < shortestDistance)
                 {
 					shortestDistance = distance;
-					nearestObject = detectedObject.gameObject;
+					nearestObject = enemy.gameObject;
                 }
             }
 
-			if (nearestObject != null) target.value = nearestObject;
+			if (enemies != null) target.value = nearestObject;
 
 			EndAction(true);
 		}

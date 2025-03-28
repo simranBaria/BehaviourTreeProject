@@ -6,6 +6,7 @@ public class AreaOfEffect : MonoBehaviour
 {
     public float lifetime;
     float damage;
+    LayerMask targetLayer;
 
     // Start is called before the first frame update
     void Start()
@@ -22,8 +23,10 @@ public class AreaOfEffect : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        other.gameObject.GetComponent<HeroController>().TakeDamage(damage);
+        if(other.gameObject.layer == targetLayer) other.gameObject.GetComponent<HeroController>().TakeDamage(damage);
     }
 
     public void SetDamage(float damage) { this.damage = damage; }
+
+    public void SetTargetLayer(LayerMask layer) { targetLayer = layer; }
 }

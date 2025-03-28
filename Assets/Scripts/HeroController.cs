@@ -4,9 +4,18 @@ using UnityEngine;
 
 public class HeroController : MonoBehaviour
 {
-    public float HP, DEF, ATK;
+    [SerializeField]
+    float HP, DEF, ATK;
 
     float health, defense, attack, energy;
+
+    public void Awake()
+    {
+        health = HP;
+        defense = DEF;
+        attack = ATK;
+        energy = 0;
+    }
 
     public float GetCurrentHealth() => health;
 
