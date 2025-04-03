@@ -36,7 +36,10 @@ public class HeroController : MonoBehaviour
 
     public float GetAttack() => attack;
 
-    public void TakeDamage(float damage) { SetCurrentHealth(health - (damage - (defense / 100 * damage))); }
+    public void TakeDamage(float damage) { 
+        SetCurrentHealth(health - (damage - (defense / 100 * damage)));
+        Debug.Log(health);
+    }
 
     // Just deactivate for now
     public void Die() { gameObject.SetActive(false); }

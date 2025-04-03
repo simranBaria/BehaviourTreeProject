@@ -19,6 +19,7 @@ namespace NodeCanvas.Tasks.Actions {
 		//Call EndAction() to mark the action as finished, either in success or failure.
 		//EndAction can be called from anywhere.
 		protected override void OnExecute() {
+			Debug.Log("attacked");
 			GameObject instantiatedProjectile = Object.Instantiate(projectile, agent.transform.position, Quaternion.identity);
 			instantiatedProjectile.GetComponent<Projectile>().SetTarget(target.value);
 			instantiatedProjectile.GetComponent<Projectile>().SetDamage(agent.GetComponent<HeroController>().GetAttack());

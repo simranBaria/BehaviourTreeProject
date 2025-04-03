@@ -26,18 +26,18 @@ public class Projectile : MonoBehaviour
     {
         if(homing)
         {
-            transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed);
+            transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
             transform.LookAt(target.transform);
         }
-        else transform.position = transform.position + Vector3.forward * speed;
+        else transform.position = transform.position + Vector3.forward * Time.deltaTime;
 
         lifetime -= Time.deltaTime;
         if (lifetime <= 0) Destroy(gameObject);
     }
 
-    public void SetTarget(GameObject target) { this.target = target; }
+    public void SetTarget(GameObject target) => this.target = target;
 
-    public void SetDamage(float damage) { this.damage = damage; }
+    public void SetDamage(float damage) => this.damage = damage;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -53,6 +53,8 @@ public class Projectile : MonoBehaviour
 
             if (!piercing) Destroy(gameObject);
         }
+
+        Debug.Log(collision.gameObject.name);
     }
 }
 
