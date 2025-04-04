@@ -53,8 +53,6 @@ public class Projectile : MonoBehaviour
 
             if (!piercing) Destroy(gameObject);
         }
-
-        Debug.Log(collision.gameObject.name);
     }
 }
 

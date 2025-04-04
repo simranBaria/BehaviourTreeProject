@@ -7,7 +7,7 @@ public class HeroController : MonoBehaviour
     [SerializeField]
     float HP, DEF, ATK;
 
-    float health, defense, attack, energy;
+    public float health, defense, attack, energy;
 
     public void Awake()
     {
@@ -23,7 +23,7 @@ public class HeroController : MonoBehaviour
 
     public float GetMaxHealth() => HP;
 
-    public void SetCurrentHealth(float health) { this.health = health; }
+    public void SetCurrentHealth(float health) => this.health = health;
 
     public float GetCurrentEnergy() => energy;
 
@@ -32,17 +32,14 @@ public class HeroController : MonoBehaviour
     // The only reason I could see it needing to be a variable rather than a hardcoded value is if some hero had an ability that increases how much energy you need for an ultimate
     public float GetMaxEnergy() => 100;
 
-    public void SetCurrentEnergy(float energy) { this.energy = energy; }
+    public void SetCurrentEnergy(float energy) => this.energy = energy;
 
     public float GetAttack() => attack;
 
-    public void TakeDamage(float damage) { 
-        SetCurrentHealth(health - (damage - (defense / 100 * damage)));
-        Debug.Log(health);
-    }
+    public void TakeDamage(float damage) => SetCurrentHealth(health - (damage - (defense / 100 * damage)));
 
     // Just deactivate for now
-    public void Die() { gameObject.SetActive(false); }
+    public void Die() => gameObject.SetActive(false);
 
     public void SetStat(Stat stat, float value)
     {

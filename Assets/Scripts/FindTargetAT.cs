@@ -10,6 +10,9 @@ namespace NodeCanvas.Tasks.Actions {
         public CharacterType characterType;
 		public BBParameter<GameObject> target;
 
+        public bool logLastTarget;
+        public BBParameter<GameObject> lastTarget;
+
 		//Use for initialization. This is called only once in the lifetime of the task.
 		//Return null if init was successfull. Return an error string otherwise
 		protected override string OnInit() {
@@ -24,8 +27,8 @@ namespace NodeCanvas.Tasks.Actions {
             if (characterType == CharacterType.Ally) layer = agent.gameObject.layer;
             else
             {
-                if (agent.gameObject.layer == LayerMask.GetMask("Enemies")) layer = LayerMask.GetMask("Allies");
-                else layer = LayerMask.GetMask("Enemies");
+                if (agent.gameObject.layer == 6) layer = LayerMask.GetMask("Enemies");
+                else layer = LayerMask.GetMask("Allies");
             }
             Collider[] enemies = Physics.OverlapSphere(agent.transform.position, Mathf.Infinity, layer);
 
@@ -93,6 +96,7 @@ namespace NodeCanvas.Tasks.Actions {
 
                 }
 
+                if (logLastTarget) lastTarget.value = target.value;
                 target.value = bestTarget;
             }
 			
