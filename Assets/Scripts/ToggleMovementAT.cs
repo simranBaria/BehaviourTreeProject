@@ -1,13 +1,12 @@
 using NodeCanvas.Framework;
 using ParadoxNotion.Design;
-using UnityEngine;
 using UnityEngine.AI;
 
 namespace NodeCanvas.Tasks.Actions {
 
-	public class MeleeAttackAT : ActionTask {
+	public class ToggleMovementAT : ActionTask {
 
-		public BBParameter<GameObject> target;
+		public bool turnOn;
 
 		//Use for initialization. This is called only once in the lifetime of the task.
 		//Return null if init was successfull. Return an error string otherwise
@@ -19,10 +18,10 @@ namespace NodeCanvas.Tasks.Actions {
 		//Call EndAction() to mark the action as finished, either in success or failure.
 		//EndAction can be called from anywhere.
 		protected override void OnExecute() {
-			float damage = agent.GetComponent<HeroController>().GetAttack();
-            target.value.GetComponent<HeroController>().TakeDamage(damage);
-            Debug.Log($"{agent.gameObject.name} dealt {damage} to {target.value.name}");
-            EndAction(true);
+			NavMeshAgent nmAgent = agent.GetComponent<NavMeshAgent>();
+			if (turnOn) nmAgent.isStopped = false;
+			else nmAgent.isStopped = true;
+			EndAction(true);
 		}
 
 		//Called once per frame while the action is active.
