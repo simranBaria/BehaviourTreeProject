@@ -1,10 +1,12 @@
 using NodeCanvas.Framework;
 using ParadoxNotion.Design;
-
+using UnityEngine;
 
 namespace NodeCanvas.Tasks.Actions {
 
 	public class MeleeAttackAT : ActionTask {
+
+		public BBParameter<GameObject> target;
 
 		//Use for initialization. This is called only once in the lifetime of the task.
 		//Return null if init was successfull. Return an error string otherwise
@@ -16,7 +18,10 @@ namespace NodeCanvas.Tasks.Actions {
 		//Call EndAction() to mark the action as finished, either in success or failure.
 		//EndAction can be called from anywhere.
 		protected override void OnExecute() {
-			EndAction(true);
+			float damage = agent.GetComponent<HeroController>().GetAttack();
+            target.value.GetComponent<HeroController>().TakeDamage(damage);
+            Debug.Log($"{agent.gameObject.name} dealt {damage} to {target.value.name}");
+            EndAction(true);
 		}
 
 		//Called once per frame while the action is active.

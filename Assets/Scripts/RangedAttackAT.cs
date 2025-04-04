@@ -22,7 +22,8 @@ namespace NodeCanvas.Tasks.Actions {
 			GameObject instantiatedProjectile = Object.Instantiate(projectile, agent.transform.position, Quaternion.identity);
 			instantiatedProjectile.GetComponent<Projectile>().SetTarget(target.value);
 			instantiatedProjectile.GetComponent<Projectile>().SetDamage(agent.GetComponent<HeroController>().GetAttack());
-			EndAction(true);
+			instantiatedProjectile.GetComponent<Projectile>().SetAgent(agent.gameObject);
+            EndAction(true);
 		}
 
 		//Called once per frame while the action is active.

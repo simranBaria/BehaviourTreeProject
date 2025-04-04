@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Projectile : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class Projectile : MonoBehaviour
 
     public GameObject target;
     public float damage;
+    public GameObject agent;
 
     // Start is called before the first frame update
     void Start()
@@ -39,6 +41,8 @@ public class Projectile : MonoBehaviour
 
     public void SetDamage(float damage) => this.damage = damage;
 
+    public void SetAgent(GameObject agent) => this.agent = agent;
+
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.layer == target.layer)
@@ -52,6 +56,8 @@ public class Projectile : MonoBehaviour
             else target.GetComponent<HeroController>().TakeDamage(damage);
 
             if (!piercing) Destroy(gameObject);
+
+            Debug.Log($"{agent.name} dealt {damage} to {collision.gameObject.name}");
         }
     }
 }
