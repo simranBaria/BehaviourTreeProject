@@ -1,13 +1,13 @@
 using NodeCanvas.Framework;
 using ParadoxNotion.Design;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace NodeCanvas.Tasks.Actions {
 
-	public class RangedAttackAT : ActionTask {
+	public class StopDashAT : ActionTask {
 
-		public BBParameter<GameObject> target;
-		public GameObject projectile;
+		NavMeshAgent nmAgent;
 
 		//Use for initialization. This is called only once in the lifetime of the task.
 		//Return null if init was successfull. Return an error string otherwise
@@ -19,9 +19,9 @@ namespace NodeCanvas.Tasks.Actions {
 		//Call EndAction() to mark the action as finished, either in success or failure.
 		//EndAction can be called from anywhere.
 		protected override void OnExecute() {
-			GameObject instantiatedProjectile = Object.Instantiate(projectile, agent.transform.position, Quaternion.identity);
-			instantiatedProjectile.GetComponent<Projectile>().SetTarget(target.value);
-			instantiatedProjectile.GetComponent<Projectile>().SetDamage(agent.GetComponent<HeroController>().GetAttack());
+			nmAgent = agent.gameObject.GetComponent<NavMeshAgent>();
+			nmAgent.speed = 3.5f;
+			agent.GetComponent<Collider>().enabled = true;
 			EndAction(true);
 		}
 

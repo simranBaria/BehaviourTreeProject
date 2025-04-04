@@ -5,12 +5,10 @@ using UnityEngine.AI;
 
 namespace NodeCanvas.Tasks.Actions {
 
-	public class DashAT : ActionTask {
+	public class StartDashAT : ActionTask {
 
 		public BBParameter<Vector3> target;
 		public float dashSpeed;
-		public float stoppingDistnace;
-		public BBParameter<bool> dashing;
 		NavMeshAgent nmAgent;
 
 		//Use for initialization. This is called only once in the lifetime of the task.
@@ -27,19 +25,12 @@ namespace NodeCanvas.Tasks.Actions {
 			nmAgent.speed = dashSpeed;
 			agent.GetComponent<Collider>().enabled = false;
 			nmAgent.SetDestination(target.value);
+			EndAction(true);
 		}
 
 		//Called once per frame while the action is active.
 		protected override void OnUpdate() {
-			if (Vector3.Distance(agent.transform.position, target.value) <= nmAgent.stoppingDistance)
-			{
-				Debug.Log("here" + LayerMask.LayerToName(agent.gameObject.layer));
-				agent.GetComponent<Collider>().enabled = true;
-				nmAgent.speed = 3.5f;
-				dashing.value = false;
-				EndAction(true);
 
-			}
 		}
 
 		//Called when the task is disabled.

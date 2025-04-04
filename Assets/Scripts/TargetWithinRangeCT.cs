@@ -6,8 +6,8 @@ namespace NodeCanvas.Tasks.Conditions {
 
 	public class TargetWithinRangeCT : ConditionTask {
 
-		public BBParameter<GameObject> target;
-		public BBParameter<float> attackRange;
+		public BBParameter<Vector3> target;
+		public BBParameter<float> range;
 
 		//Use for initialization. This is called only once in the lifetime of the task.
 		//Return null if init was successfull. Return an error string otherwise
@@ -28,7 +28,8 @@ namespace NodeCanvas.Tasks.Conditions {
 		//Called once per frame while the condition is active.
 		//Return whether the condition is success or failure.
 		protected override bool OnCheck() {
-			return Vector3.Distance(agent.transform.position, target.value.transform.position) <= attackRange.value;
+			Debug.Log(Vector3.Distance(agent.transform.position, target.value));
+			return Vector3.Distance(agent.transform.position, target.value) <= range.value;
 		}
 	}
 }
