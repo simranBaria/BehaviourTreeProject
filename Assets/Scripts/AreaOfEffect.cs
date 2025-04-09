@@ -5,7 +5,8 @@ using UnityEngine;
 public class AreaOfEffect : MonoBehaviour
 {
     public float lifetime;
-    float damage;
+    public EffectType effect;
+    float effectAmount;
     LayerMask targetLayer;
 
     // Start is called before the first frame update
@@ -23,10 +24,21 @@ public class AreaOfEffect : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == targetLayer) other.gameObject.GetComponent<HeroController>().TakeDamage(damage);
+        HeroController hero = other.gameObject.GetComponent<HeroController>();
+        if (other.gameObject.layer == targetLayer)
+        {
+            if (effect == EffectType.Damaging) hero.TakeDamage(effectAmount, StatChangeType.Fixed);
+            else hero.Heal(effectAmount, StatChangeType.Fixed);
+        }
     }
 
-    public void SetDamage(float damage) { this.damage = damage; }
+    public void SetEffectAmount(float amount) => effectAmount = amount;
 
-    public void SetTargetLayer(LayerMask layer) { targetLayer = layer; }
+    public void SetTargetLayer(LayerMask layer) => targetLayer = layer;
+}
+
+public enum EffectType
+{
+    Healing,
+    Damaging
 }

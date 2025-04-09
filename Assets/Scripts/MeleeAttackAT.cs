@@ -20,7 +20,7 @@ namespace NodeCanvas.Tasks.Actions {
 		//EndAction can be called from anywhere.
 		protected override void OnExecute() {
 			float damage = agent.GetComponent<HeroController>().GetAttack();
-            target.value.GetComponent<HeroController>().TakeDamage(damage);
+            target.value.GetComponent<HeroController>().TakeDamage(damage, StatChangeType.Fixed);
             Debug.Log($"{agent.gameObject.name} dealt {damage} to {target.value.name}");
             EndAction(true);
 		}

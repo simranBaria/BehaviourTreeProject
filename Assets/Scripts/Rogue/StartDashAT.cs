@@ -23,8 +23,10 @@ namespace NodeCanvas.Tasks.Actions {
 		protected override void OnExecute() {
 			nmAgent = agent.gameObject.GetComponent<NavMeshAgent>();
 			nmAgent.speed = dashSpeed;
-			agent.GetComponent<Collider>().enabled = false;
+			agent.gameObject.GetComponent<Collider>().enabled = false;
 			nmAgent.SetDestination(target.value);
+			agent.gameObject.GetComponentInChildren<TrailRenderer>().enabled = true;
+			Debug.Log("start");
 			EndAction(true);
 		}
 

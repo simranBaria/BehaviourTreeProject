@@ -10,12 +10,13 @@ public class Projectile : MonoBehaviour
     public bool homing;
     public bool piercing;
 
-    [Header("For AOE damage only")]
-    public GameObject AOEObject;
 
     public GameObject target;
     public float damage;
     public GameObject agent;
+
+    [Header("For AOE damage only")]
+    public GameObject AOEObject;
 
     // Start is called before the first frame update
     void Start()
@@ -50,10 +51,10 @@ public class Projectile : MonoBehaviour
             if (damageType == DamageType.AreaOfEffect)
             {
                 GameObject instantiatedAOE = Instantiate(AOEObject, transform.position, Quaternion.identity);
-                instantiatedAOE.GetComponent<AreaOfEffect>().SetDamage(damage);
+                instantiatedAOE.GetComponent<AreaOfEffect>().SetEffectAmount(damage);
                 instantiatedAOE.GetComponent<AreaOfEffect>().SetTargetLayer(target.layer);
             }
-            else target.GetComponent<HeroController>().TakeDamage(damage);
+            else target.GetComponent<HeroController>().TakeDamage(damage, StatChangeType.Fixed);
 
             if (!piercing) Destroy(gameObject);
 

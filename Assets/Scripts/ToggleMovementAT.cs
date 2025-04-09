@@ -19,9 +19,8 @@ namespace NodeCanvas.Tasks.Actions {
 		//EndAction can be called from anywhere.
 		protected override void OnExecute() {
 			NavMeshAgent nmAgent = agent.GetComponent<NavMeshAgent>();
-			if (turnOn) nmAgent.isStopped = false;
-			else nmAgent.isStopped = true;
-			EndAction(true);
+			nmAgent.isStopped = !turnOn;
+            EndAction(true);
 		}
 
 		//Called once per frame while the action is active.

@@ -36,7 +36,33 @@ public class HeroController : MonoBehaviour
 
     public float GetAttack() => attack;
 
-    public void TakeDamage(float damage) => SetCurrentHealth(health - (damage - (defense / 100 * damage)));
+    public void TakeDamage(float damageAmount, StatChangeType changeType)
+    {
+        switch (changeType)
+        {
+            case StatChangeType.Fixed:
+                SetCurrentHealth(health - (damageAmount - (defense / 100 * damageAmount)));
+                break;
+            case StatChangeType.Percentage:
+                SetCurrentHealth(health - (GetMaxHealth() * (damageAmount / 100)));
+                break;
+        }
+        if (health < 0) SetCurrentHealth(0);
+    }
+
+    public void Heal(float healingAmount, StatChangeType changeType)
+    {
+        switch(changeType)
+        {
+            case StatChangeType.Fixed:
+                SetCurrentHealth(health + healingAmount);
+                break;
+            case StatChangeType.Percentage:
+                SetCurrentHealth(health + (GetMaxHealth() * (healingAmount / 100)));
+                break;
+        }
+        if (health > GetMaxHealth()) SetToMax(Stat.Health);
+    }
 
     // Just deactivate for now
     public void Die() => gameObject.SetActive(false);
@@ -112,4 +138,11 @@ public enum Stat
 {
     Health,
     Energy
+}
+
+
+public enum StatChangeType
+{
+    Fixed,
+    Percentage
 }

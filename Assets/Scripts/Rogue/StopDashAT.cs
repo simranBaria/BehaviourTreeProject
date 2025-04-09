@@ -22,6 +22,7 @@ namespace NodeCanvas.Tasks.Actions {
 			nmAgent = agent.gameObject.GetComponent<NavMeshAgent>();
 			nmAgent.speed = 3.5f;
 			agent.GetComponent<Collider>().enabled = true;
+			agent.gameObject.GetComponentInChildren<TrailRenderer>().enabled = false;
 			EndAction(true);
 		}
 
