@@ -24,82 +24,89 @@ namespace NodeCanvas.Tasks.Actions {
 		//EndAction can be called from anywhere.
 		protected override void OnExecute() {
             LayerMask layer;
-            if (characterType == CharacterType.Ally) layer = agent.gameObject.layer;
+            if (characterType == CharacterType.Ally) layer = LayerMask.GetMask(LayerMask.LayerToName(agent.gameObject.layer));
             else
             {
-                if (agent.gameObject.layer == 6) layer = LayerMask.GetMask("Enemies");
-                else layer = LayerMask.GetMask("Allies");
+                if (LayerMask.GetMask(LayerMask.LayerToName(agent.gameObject.layer)) != LayerMask.GetMask("Allies")) layer = LayerMask.GetMask("Allies");
+                else layer = LayerMask.GetMask("Enemies");
             }
-            Collider[] enemies = Physics.OverlapSphere(agent.transform.position, Mathf.Infinity, layer);
+            Collider[] heroes = Physics.OverlapSphere(agent.transform.position, Mathf.Infinity, layer);
 
-			if(enemies != null)
-			{
+            if (heroes != null)
+            {
                 GameObject bestTarget = null;
 
                 switch (criteria)
                 {
                     case FindCriteria.Nearest:
                         float shortestDistance = Mathf.Infinity;
-                        foreach (Collider enemy in enemies)
+                        foreach (Collider hero in heroes)
                         {
-                            float distance = Vector3.Distance(agent.transform.position, enemy.transform.position);
+                            float distance = Vector3.Distance(agent.transform.position, hero.transform.position);
 
                             if (distance < shortestDistance)
                             {
                                 shortestDistance = distance;
-                                bestTarget = enemy.gameObject;
+                                bestTarget = hero.gameObject;
                             }
                         }
                         break;
 
                     case FindCriteria.Furthest:
                         float furthestDistance = 0;
-                        foreach (Collider enemy in enemies)
+                        foreach (Collider hero in heroes)
                         {
-                            float distance = Vector3.Distance(agent.transform.position, enemy.transform.position);
+                            float distance = Vector3.Distance(agent.transform.position, hero.transform.position);
 
                             if (distance > furthestDistance)
                             {
                                 furthestDistance = distance;
-                                bestTarget = enemy.gameObject;
+                                bestTarget = hero.gameObject;
                             }
                         }
                         break;
 
                     case FindCriteria.HighestHealthPercentage:
-						float highestHealth = 0;
-                        foreach (Collider enemy in enemies)
+                        float highestHealth = 0;
+                        foreach (Collider hero in heroes)
                         {
-							float health = enemy.GetComponent<HeroController>().GetHealthPercentage();
+                            float health = hero.gameObject.GetComponent<HeroController>().GetHealthPercentage();
 
                             if (health > highestHealth)
                             {
                                 highestHealth = health;
-                                bestTarget = enemy.gameObject;
+                                bestTarget = hero.gameObject;
                             }
                         }
                         break;
 
                     case FindCriteria.LowestHealthPercentage:
                         float lowestHealth = Mathf.Infinity;
-                        foreach (Collider enemy in enemies)
+                        foreach (Collider hero in heroes)
                         {
-                            float health = enemy.GetComponent<HeroController>().GetHealthPercentage();
+                            float health = hero.gameObject.GetComponent<HeroController>().GetHealthPercentage();
 
                             if (health < lowestHealth)
                             {
                                 lowestHealth = health;
-                                bestTarget = enemy.gameObject;
+                                bestTarget = hero.gameObject;
                             }
                         }
                         break;
 
                 }
 
+                if (characterType == CharacterType.Enemy)
+                {
+                    foreach (Collider hero in heroes)
+                    {
+                        if (hero.gameObject.CompareTag("Control Target")) bestTarget = hero.gameObject;
+                    }
+                }
+
                 if (logLastTarget) lastTarget.value = target.value;
                 target.value = bestTarget;
             }
-			
 			EndAction(true);
 		}
 

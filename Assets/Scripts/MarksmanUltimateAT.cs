@@ -6,6 +6,7 @@ namespace NodeCanvas.Tasks.Actions {
 
 	public class MarksmanUltimateAT : ActionTask {
 		public GameObject arrow;
+		public float attackMultiplier;
 
 		//Use for initialization. This is called only once in the lifetime of the task.
 		//Return null if init was successfull. Return an error string otherwise
@@ -25,8 +26,7 @@ namespace NodeCanvas.Tasks.Actions {
 			foreach (Collider enemy in enemies)
             {
 				GameObject instantiatedProjectile = Object.Instantiate(arrow, enemy.gameObject.transform.position + Vector3.up * 20, Quaternion.identity);
-				instantiatedProjectile.GetComponent<Projectile>().SetTarget(enemy.gameObject);
-				instantiatedProjectile.GetComponent<Projectile>().SetDamage(agent.GetComponent<HeroController>().GetAttack());
+				instantiatedProjectile.GetComponent<Projectile>().Init(enemy.gameObject, agent.GetComponent<HeroController>().GetStat(Stat.Attack) * attackMultiplier);
 			}
 
 			EndAction(true);

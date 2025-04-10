@@ -8,6 +8,7 @@ namespace NodeCanvas.Tasks.Actions {
 	public class MeleeAttackAT : ActionTask {
 
 		public BBParameter<GameObject> target;
+		public float multiplier = 1;
 
 		//Use for initialization. This is called only once in the lifetime of the task.
 		//Return null if init was successfull. Return an error string otherwise
@@ -19,9 +20,8 @@ namespace NodeCanvas.Tasks.Actions {
 		//Call EndAction() to mark the action as finished, either in success or failure.
 		//EndAction can be called from anywhere.
 		protected override void OnExecute() {
-			float damage = agent.GetComponent<HeroController>().GetAttack();
+            float damage = agent.GetComponent<HeroController>().GetStat(Stat.Attack) * multiplier;
             target.value.GetComponent<HeroController>().TakeDamage(damage, StatChangeType.Fixed);
-            Debug.Log($"{agent.gameObject.name} dealt {damage} to {target.value.name}");
             EndAction(true);
 		}
 

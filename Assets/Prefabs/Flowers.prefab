@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8871197651192657182}
   - component: {fileID: 213797055532363251}
   - component: {fileID: 1197009567142137875}
+  - component: {fileID: 519850782890494655}
   m_Layer: 0
   m_Name: Flowers
   m_TagString: Untagged
@@ -67,8 +68,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c38d88f0a4d454b59b84347851d76e53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifetime: 5
+  lifetime: 0.5
   effect: 0
+  addedEffect: 1
+  additionalEffect:
+    type: 2
+    hero: {fileID: 0}
+    stat: 2
+    duration: 10
+    amount: 25
+    method: 1
+  statBooster: {fileID: 6572345217399917740, guid: 945467f325f3e42e5aa00c0db2ae9a0f, type: 3}
+--- !u!54 &519850782890494655
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4628356186890067434}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &4968347588658534614
 GameObject:
   m_ObjectHideFlags: 0

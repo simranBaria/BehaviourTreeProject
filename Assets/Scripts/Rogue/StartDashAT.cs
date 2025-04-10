@@ -8,7 +8,7 @@ namespace NodeCanvas.Tasks.Actions {
 	public class StartDashAT : ActionTask {
 
 		public BBParameter<Vector3> target;
-		public float dashSpeed;
+		public BBParameter<float> dashSpeed;
 		NavMeshAgent nmAgent;
 
 		//Use for initialization. This is called only once in the lifetime of the task.
@@ -22,12 +22,11 @@ namespace NodeCanvas.Tasks.Actions {
 		//EndAction can be called from anywhere.
 		protected override void OnExecute() {
 			nmAgent = agent.gameObject.GetComponent<NavMeshAgent>();
-			nmAgent.speed = dashSpeed;
+			nmAgent.speed = dashSpeed.value;
 			agent.gameObject.GetComponent<Collider>().enabled = false;
 			nmAgent.SetDestination(target.value);
 			agent.gameObject.GetComponentInChildren<TrailRenderer>().enabled = true;
-			Debug.Log("start");
-			EndAction(true);
+            EndAction(true);
 		}
 
 		//Called once per frame while the action is active.

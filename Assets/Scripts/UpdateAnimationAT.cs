@@ -1,13 +1,12 @@
 using NodeCanvas.Framework;
 using ParadoxNotion.Design;
-using UnityEngine;
+
 
 namespace NodeCanvas.Tasks.Actions {
 
-	public class SpawnObjectAT : ActionTask {
+	public class UpdateAnimationAT : ActionTask {
 
-		public GameObject prefab;
-		public Vector3 location;
+		public HeroState state;
 
 		//Use for initialization. This is called only once in the lifetime of the task.
 		//Return null if init was successfull. Return an error string otherwise
@@ -19,7 +18,7 @@ namespace NodeCanvas.Tasks.Actions {
 		//Call EndAction() to mark the action as finished, either in success or failure.
 		//EndAction can be called from anywhere.
 		protected override void OnExecute() {
-			Object.Instantiate(prefab, location, Quaternion.identity);
+            agent.GetComponent<HeroController>().UpdateAnimation(state);
 			EndAction(true);
 		}
 

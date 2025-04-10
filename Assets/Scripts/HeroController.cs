@@ -5,11 +5,13 @@ using UnityEngine;
 public class HeroController : MonoBehaviour
 {
     [SerializeField]
-    float HP, DEF, ATK;
+    float HP, DEF, ATK, ENR;
 
     public float health, defense, attack, energy;
 
-    public void Awake()
+    public HeroState current, previous;
+
+    private void Start()
     {
         health = HP;
         defense = DEF;
@@ -17,52 +19,21 @@ public class HeroController : MonoBehaviour
         energy = 0;
     }
 
-    public float GetCurrentHealth() => health;
+    public void UpdateAnimation(HeroState state) => current = state;
 
-    public float GetHealthPercentage() => GetCurrentHealth() / GetMaxHealth() * 100;
-
-    public float GetMaxHealth() => HP;
-
-    public void SetCurrentHealth(float health) => this.health = health;
-
-    public float GetCurrentEnergy() => energy;
-
-    // I will make this a variable if it ever needs to not be 100
-    // But right now it just makes sense for it to be 100
-    // The only reason I could see it needing to be a variable rather than a hardcoded value is if some hero had an ability that increases how much energy you need for an ultimate
-    public float GetMaxEnergy() => 100;
-
-    public void SetCurrentEnergy(float energy) => this.energy = energy;
-
-    public float GetAttack() => attack;
+    public float GetHealthPercentage() => health / HP * 100;
 
     public void TakeDamage(float damageAmount, StatChangeType changeType)
     {
-        switch (changeType)
+        if (changeType == StatChangeType.Fixed)
         {
-            case StatChangeType.Fixed:
-                SetCurrentHealth(health - (damageAmount - (defense / 100 * damageAmount)));
-                break;
-            case StatChangeType.Percentage:
-                SetCurrentHealth(health - (GetMaxHealth() * (damageAmount / 100)));
-                break;
+            float takenDamage = damageAmount - damageAmount * (GetStat(Stat.Defense) / 100);
+            DecreaseStat(Stat.Health, takenDamage, changeType);
         }
-        if (health < 0) SetCurrentHealth(0);
+        else DecreaseStat(Stat.Health, damageAmount, changeType);
     }
 
-    public void Heal(float healingAmount, StatChangeType changeType)
-    {
-        switch(changeType)
-        {
-            case StatChangeType.Fixed:
-                SetCurrentHealth(health + healingAmount);
-                break;
-            case StatChangeType.Percentage:
-                SetCurrentHealth(health + (GetMaxHealth() * (healingAmount / 100)));
-                break;
-        }
-        if (health > GetMaxHealth()) SetToMax(Stat.Health);
-    }
+    public void Heal(Stat stat, float healingAmount, StatChangeType changeType) => IncreaseStat(stat, healingAmount, changeType);
 
     // Just deactivate for now
     public void Die() => gameObject.SetActive(false);
@@ -72,11 +43,19 @@ public class HeroController : MonoBehaviour
         switch(stat)
         {
             case Stat.Health:
-                SetCurrentHealth(value);
+                health = value;
                 break;
 
             case Stat.Energy:
-                SetCurrentEnergy(value);
+                energy = value;
+                break;
+
+            case Stat.Attack:
+                attack = value;
+                break;
+
+            case Stat.Defense:
+                defense = value;
                 break;
         }
     }
@@ -86,10 +65,16 @@ public class HeroController : MonoBehaviour
         switch (stat)
         {
             case Stat.Health:
-                return GetCurrentHealth();
+                return health;
 
             case Stat.Energy:
-                return GetCurrentEnergy();
+                return energy;
+
+            case Stat.Attack:
+                return attack;
+
+            case Stat.Defense:
+                return defense;
         }
         return 0;
     }
@@ -99,11 +84,11 @@ public class HeroController : MonoBehaviour
         switch (stat)
         {
             case Stat.Health:
-                SetCurrentHealth(GetMaxHealth());
+                SetStat(stat, HP);
                 break;
 
             case Stat.Energy:
-                SetCurrentEnergy(GetMaxEnergy());
+                SetStat(stat, ENR);
                 break;
         }
     }
@@ -113,31 +98,89 @@ public class HeroController : MonoBehaviour
         switch (stat)
         {
             case Stat.Health:
-                return GetMaxHealth();
+                return HP;
 
             case Stat.Energy:
-                return GetMaxEnergy();
+                return ENR;
+
+            case Stat.Attack:
+                break;
+
+            case Stat.Defense:
+                return 100;
         }
         return 0;
     }
 
-    public void DecreaseStat(Stat stat, float value)
+    public float GetBase(Stat stat)
     {
-        SetStat(stat, GetStat(stat) - value);
+        switch (stat)
+        {
+            case Stat.Health:
+                return GetMax(stat);
+
+            case Stat.Energy:
+                return GetMax(stat);
+
+            case Stat.Attack:
+                return ATK;
+
+            case Stat.Defense:
+                return DEF;
+        }
+        return 0;
+    }
+
+    public void SetToBase(Stat stat)
+    {
+        switch (stat)
+        {
+            case Stat.Health:
+                SetStat(stat, GetMax(stat));
+                break;
+
+            case Stat.Energy:
+                SetStat(stat, GetMax(stat));
+                break;
+
+            case Stat.Attack:
+                SetStat(stat, GetBase(stat));
+                break;
+
+            case Stat.Defense:
+                SetStat(stat, GetBase(stat));
+                break;
+        }
+    }
+
+    public void DecreaseStat(Stat stat, float value, StatChangeType method)
+    {
+        if (method == StatChangeType.Fixed) SetStat(stat, GetStat(stat) - value);
+        else SetStat(stat, GetStat(stat) - GetBase(stat) * (value / 100));
+
         if (GetStat(stat) < 0) SetStat(stat, 0);
     }
 
-    public void IncreaseStat(Stat stat, float value)
+    public void IncreaseStat(Stat stat, float value, StatChangeType method)
     {
-        SetStat(stat, GetStat(stat) + value);
+        if (method == StatChangeType.Fixed) SetStat(stat, GetStat(stat) + value);
+        else SetStat(stat, GetStat(stat) + GetBase(stat) * (value / 100));
+
         if (GetStat(stat) > GetMax(stat)) SetToMax(stat);
+    }
+
+    public void SetToPercentage(Stat stat, float percentage)
+    {
+        SetStat(stat, GetMax(stat) * (percentage / 100));
     }
 }
 
 public enum Stat
 {
     Health,
-    Energy
+    Energy,
+    Attack,
+    Defense
 }
 
 

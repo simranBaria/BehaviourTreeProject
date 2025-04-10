@@ -47,15 +47,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34b63c97d702e48caa2204ec9b329126, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 50
+  speed: 25
   lifetime: 10
-  damageType: 0
   homing: 1
   piercing: 0
-  target: {fileID: 0}
-  damage: 0
-  agent: {fileID: 0}
-  AOEObject: {fileID: 0}
+  spawnAOE: 1
+  AOE:
+    lifetime: 0.5
+    effect: 1
+    effectedStat: 0
+    changeType: 0
+    effectAmount: 0
+    targetLayer:
+      serializedVersion: 2
+      m_Bits: 0
+    addedEffect: 0
+    additionalEffect:
+      type: 0
+      hero: {fileID: 0}
+      stat: 0
+      duration: 0
+      amount: 0
+      method: 0
+    statBooster: {fileID: 0}
+  effect: {fileID: 3429008798948807193, guid: dc58218c7870b4292b193a59eec0eda9, type: 3}
 --- !u!54 &5093423764812581928
 Rigidbody:
   m_ObjectHideFlags: 0

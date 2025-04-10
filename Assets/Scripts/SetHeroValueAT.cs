@@ -9,6 +9,8 @@ namespace NodeCanvas.Tasks.Actions {
 		public Stat setStat;
 		public SetType setType;
 		public float value;
+		public StatChangeType method;
+
 		HeroController hero;
 
 		//Use for initialization. This is called only once in the lifetime of the task.
@@ -29,11 +31,11 @@ namespace NodeCanvas.Tasks.Actions {
 					break;
 
 				case SetType.DecreaseBy:
-					hero.DecreaseStat(setStat, value);
+					hero.DecreaseStat(setStat, value, method);
 					break;
 
 				case SetType.IncreaseBy:
-					hero.IncreaseStat(setStat, value);
+					hero.IncreaseStat(setStat, value, method);
 					break;
 			}
 

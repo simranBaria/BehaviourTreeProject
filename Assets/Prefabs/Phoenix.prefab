@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 7405090183600906742}
   - component: {fileID: 4338038671459471250}
   - component: {fileID: 6155921503947620020}
-  - component: {fileID: 2996154568929928011}
+  - component: {fileID: 861559555701310554}
   m_Layer: 0
   m_Name: Phoenix
   m_TagString: Untagged
@@ -112,7 +112,7 @@ Transform:
   m_GameObject: {fileID: 8143002734171143569}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.076, y: 0, z: -0.848}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -154,14 +154,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 50
   lifetime: 10
-  damageType: 0
   homing: 0
   piercing: 1
-  target: {fileID: 0}
-  damage: 0
-  agent: {fileID: 0}
-  AOEObject: {fileID: 0}
---- !u!54 &2996154568929928011
+  spawnAOE: 0
+  AOE:
+    lifetime: 0
+    effect: 0
+    effectedStat: 0
+    changeType: 0
+    effectAmount: 0
+    targetLayer:
+      serializedVersion: 2
+      m_Bits: 0
+    addedEffect: 0
+    additionalEffect:
+      type: 0
+      hero: {fileID: 0}
+      stat: 0
+      duration: 0
+      amount: 0
+      method: 0
+    statBooster: {fileID: 0}
+  effect: {fileID: 0}
+--- !u!54 &861559555701310554
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -183,7 +198,7 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 0
+  m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 126

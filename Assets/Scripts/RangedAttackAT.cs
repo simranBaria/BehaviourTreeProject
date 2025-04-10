@@ -8,6 +8,7 @@ namespace NodeCanvas.Tasks.Actions {
 
 		public BBParameter<GameObject> target;
 		public GameObject projectile;
+		public float multiplier = 1;
 
 		//Use for initialization. This is called only once in the lifetime of the task.
 		//Return null if init was successfull. Return an error string otherwise
@@ -20,9 +21,7 @@ namespace NodeCanvas.Tasks.Actions {
 		//EndAction can be called from anywhere.
 		protected override void OnExecute() {
 			GameObject instantiatedProjectile = Object.Instantiate(projectile, agent.transform.position, Quaternion.identity);
-			instantiatedProjectile.GetComponent<Projectile>().SetTarget(target.value);
-			instantiatedProjectile.GetComponent<Projectile>().SetDamage(agent.GetComponent<HeroController>().GetAttack());
-			instantiatedProjectile.GetComponent<Projectile>().SetAgent(agent.gameObject);
+			instantiatedProjectile.GetComponent<Projectile>().Init(target.value, agent.GetComponent<HeroController>().GetStat(Stat.Attack) * multiplier);
             EndAction(true);
 		}
 
