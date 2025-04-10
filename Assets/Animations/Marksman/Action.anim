@@ -24,24 +24,24 @@ AnimationClip:
       value: {fileID: -947047054, guid: f3c39553740e24c219cf02ec340289ca, type: 3}
     - time: 0.1
       value: {fileID: 1831970661, guid: f3c39553740e24c219cf02ec340289ca, type: 3}
-    - time: 0.2
+    - time: 0.21666667
       value: {fileID: 826694969, guid: f3c39553740e24c219cf02ec340289ca, type: 3}
-    - time: 0.3
+    - time: 0.31666666
       value: {fileID: -2021994827, guid: f3c39553740e24c219cf02ec340289ca, type: 3}
-    - time: 0.4
+    - time: 0.41666666
       value: {fileID: 915871471, guid: f3c39553740e24c219cf02ec340289ca, type: 3}
-    - time: 0.5
+    - time: 0.51666665
       value: {fileID: -278287254, guid: f3c39553740e24c219cf02ec340289ca, type: 3}
-    - time: 0.6
+    - time: 0.6333333
       value: {fileID: -2055482334, guid: f3c39553740e24c219cf02ec340289ca, type: 3}
-    - time: 0.7
+    - time: 0.73333335
       value: {fileID: 571138080, guid: f3c39553740e24c219cf02ec340289ca, type: 3}
-    - time: 0.8
+    - time: 0.8333333
       value: {fileID: 602419249, guid: f3c39553740e24c219cf02ec340289ca, type: 3}
-    - time: 0.9
+    - time: 0.9166667
       value: {fileID: -947047054, guid: f3c39553740e24c219cf02ec340289ca, type: 3}
     attribute: m_Sprite
-    path: Sprite
+    path: Visuals/Sprite
     classID: 212
     script: {fileID: 0}
     flags: 2
@@ -53,7 +53,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 850496168
+      path: 1201564956
       attribute: 0
       script: {fileID: 0}
       typeID: 212
@@ -77,7 +77,7 @@ AnimationClip:
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.9166667
+    m_StopTime: 0.93333334
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0

@@ -14,26 +14,33 @@ public class StatusEffecter : MonoBehaviour
         public StatusEffect statusEffect;
         public GameObject target;
         public float duration;
+
+        public Effect(StatusEffect statusEffect, GameObject target, float duration)
+        {
+            this.statusEffect = statusEffect;
+            this.target = target;
+            this.duration = duration;
+        }
     }
 
     public StatusEffect statusEffect;
     public float duration;
     public GameObject target;
 
-    Blackboard heroBB;
     float timer;
+    HeroController hero;
 
     public void Init(Effect effect)
     {
         statusEffect = effect.statusEffect;
         target = effect.target;
         duration = effect.duration;
+        hero = target.GetComponent<HeroController>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        heroBB = target.GetComponent<Blackboard>();
         timer = duration;
 
         switch(statusEffect)
@@ -43,9 +50,7 @@ public class StatusEffecter : MonoBehaviour
                 break;
 
             case StatusEffect.Freeze:
-                heroBB.enabled = false;
-                target.GetComponent<NavMeshAgent>().isStopped = true;
-                target.GetComponent<HeroController>().UpdateAnimation(HeroState.Idle);
+                hero.SetFrozen(true);
                 break;
         }
     }
@@ -59,12 +64,6 @@ public class StatusEffecter : MonoBehaviour
 
     public void EndEffect()
     {
-        if(statusEffect == StatusEffect.Freeze)
-        {
-            heroBB.enabled = true;
-            target.gameObject.GetComponent<NavMeshAgent>().isStopped = false;
-        }
-
         switch (statusEffect)
         {
             case StatusEffect.Target:
@@ -72,8 +71,7 @@ public class StatusEffecter : MonoBehaviour
                 break;
 
             case StatusEffect.Freeze:
-                heroBB.enabled = true;
-                target.GetComponent<NavMeshAgent>().isStopped = false;
+                hero.SetFrozen(false);
                 break;
         }
 

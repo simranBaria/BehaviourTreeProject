@@ -15,6 +15,16 @@ public class StatBooster : MonoBehaviour
         public Stat stat;
         public float duration, amount;
         public StatChangeType method;
+
+        public StatBoost(SetType type, HeroController hero, Stat stat, float duration, float amount, StatChangeType method)
+        {
+            this.type = type;
+            this.hero = hero;
+            this.stat = stat;
+            this.duration = duration;
+            this.amount = amount;
+            this.method = method;
+        }
     }
 
     public SetType type;

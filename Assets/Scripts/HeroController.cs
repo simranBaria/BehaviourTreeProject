@@ -1,6 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Schema;
 using UnityEngine;
+using NodeCanvas.Framework;
+using ParadoxNotion.Design;
+using NodeCanvas.BehaviourTrees;
 
 public class HeroController : MonoBehaviour
 {
@@ -10,6 +14,9 @@ public class HeroController : MonoBehaviour
     public float health, defense, attack, energy;
 
     public HeroState current, previous;
+
+    public bool roundActive, frozen;
+    public CharacterType type;
 
     private void Start()
     {
@@ -35,8 +42,16 @@ public class HeroController : MonoBehaviour
 
     public void Heal(Stat stat, float healingAmount, StatChangeType changeType) => IncreaseStat(stat, healingAmount, changeType);
 
-    // Just deactivate for now
-    public void Die() => gameObject.SetActive(false);
+    public void Die()
+    {
+        Player.instance.RemoveHero(gameObject, type);
+        UpdateAnimation(HeroState.Die);
+    }
+
+    public void DestroySelf()
+    {
+        gameObject.SetActive(false);
+    }
 
     public void SetStat(Stat stat, float value)
     {
@@ -155,16 +170,40 @@ public class HeroController : MonoBehaviour
 
     public void DecreaseStat(Stat stat, float value, StatChangeType method)
     {
-        if (method == StatChangeType.Fixed) SetStat(stat, GetStat(stat) - value);
-        else SetStat(stat, GetStat(stat) - GetBase(stat) * (value / 100));
+        switch(method)
+        {
+            case StatChangeType.Fixed:
+                SetStat(stat, GetStat(stat) - value);
+                break;
+
+            case StatChangeType.Percentage:
+                SetStat(stat, GetStat(stat) - GetBase(stat) * (value / 100));
+                break;
+
+            case StatChangeType.PercentageOfCurrent:
+                SetStat(stat, GetStat(stat) - GetStat(stat) * (value / 100));
+                break;
+        }
 
         if (GetStat(stat) < 0) SetStat(stat, 0);
     }
 
     public void IncreaseStat(Stat stat, float value, StatChangeType method)
     {
-        if (method == StatChangeType.Fixed) SetStat(stat, GetStat(stat) + value);
-        else SetStat(stat, GetStat(stat) + GetBase(stat) * (value / 100));
+        switch (method)
+        {
+            case StatChangeType.Fixed:
+                SetStat(stat, GetStat(stat) + value);
+                break;
+
+            case StatChangeType.Percentage:
+                SetStat(stat, GetStat(stat) + GetBase(stat) * (value / 100));
+                break;
+
+            case StatChangeType.PercentageOfCurrent:
+                SetStat(stat, GetStat(stat) + GetStat(stat) * (value / 100));
+                break;
+        }
 
         if (GetStat(stat) > GetMax(stat)) SetToMax(stat);
     }
@@ -173,6 +212,10 @@ public class HeroController : MonoBehaviour
     {
         SetStat(stat, GetMax(stat) * (percentage / 100));
     }
+
+    public void SetFrozen(bool frozen) => this.frozen = frozen;
+
+    public void SetRoundActive(bool active) => roundActive = active;
 }
 
 public enum Stat
@@ -187,5 +230,6 @@ public enum Stat
 public enum StatChangeType
 {
     Fixed,
-    Percentage
+    Percentage,
+    PercentageOfCurrent
 }

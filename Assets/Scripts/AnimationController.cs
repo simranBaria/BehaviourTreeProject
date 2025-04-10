@@ -51,6 +51,9 @@ public class AnimationController : MonoBehaviour
         }
 
         hero.previous = hero.current;
+
+        if (transform.rotation.eulerAngles.y < Camera.main.transform.rotation.eulerAngles.y && !SR.flipX) SR.flipX = true;
+        else if(transform.rotation.eulerAngles.y >= Camera.main.transform.rotation.eulerAngles.y && SR.flipX) SR.flipX = false;
     }
 
     public string StateToString(HeroState state)
@@ -71,6 +74,8 @@ public class AnimationController : MonoBehaviour
 
             case HeroState.Die:
                 return "Die";
+            case HeroState.Frozen:
+                return "Frozen";
             default:
                 return "";
         }
@@ -83,5 +88,6 @@ public enum HeroState
     Walk,
     Action,
     Dash,
-    Die
+    Die,
+    Frozen
 }
