@@ -2,9 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Schema;
 using UnityEngine;
-using NodeCanvas.Framework;
-using ParadoxNotion.Design;
-using NodeCanvas.BehaviourTrees;
+using TMPro;
+using UnityEngine.UI;
 
 public class HeroController : MonoBehaviour
 {
@@ -17,6 +16,59 @@ public class HeroController : MonoBehaviour
 
     public bool roundActive, frozen;
     public CharacterType type;
+    public CharacterClasses characterClass;
+    public GameObject initialTile;
+    public TextMeshProUGUI classText;
+    public Slider healthBar, energyBar;
+    public Sprite redName, blueName;
+    public Image nameDisplay;
+
+    public void Init(CharacterType type, GameObject tile)
+    {
+        this.type = type;
+        if (type == CharacterType.Ally)
+        {
+            gameObject.layer = LayerMask.NameToLayer("Allies");
+            nameDisplay.sprite = blueName;
+        }
+        else
+        {
+            gameObject.layer = LayerMask.NameToLayer("Enemies");
+            nameDisplay.sprite = redName;
+        }
+
+        initialTile = tile;
+
+        switch(characterClass)
+        {
+            case CharacterClasses.Marksman:
+                classText.text = "Marksman";
+                break;
+
+            case CharacterClasses.Tank:
+                classText.text = "Tank";
+                break;
+
+            case CharacterClasses.Rogue:
+                classText.text = "Rogue";
+                break;
+
+            case CharacterClasses.Mage:
+                classText.text = "Mage";
+                break;
+
+            case CharacterClasses.Warrior:
+                classText.text = "Warrior";
+                break;
+
+            case CharacterClasses.Support:
+                classText.text = "Support";
+                break;
+        }
+
+        healthBar.maxValue = 100;
+        energyBar.maxValue = 100;
+    }
 
     private void Start()
     {
@@ -26,9 +78,17 @@ public class HeroController : MonoBehaviour
         energy = 0;
     }
 
+    private void Update()
+    {
+        healthBar.value = GetHealthPercentage();
+        energyBar.value = GetEnergyPercentage();
+    }
+
     public void UpdateAnimation(HeroState state) => current = state;
 
     public float GetHealthPercentage() => health / HP * 100;
+
+    public float GetEnergyPercentage() => energy / ENR * 100;
 
     public void TakeDamage(float damageAmount, StatChangeType changeType)
     {
@@ -38,6 +98,8 @@ public class HeroController : MonoBehaviour
             DecreaseStat(Stat.Health, takenDamage, changeType);
         }
         else DecreaseStat(Stat.Health, damageAmount, changeType);
+
+        IncreaseStat(Stat.Energy, 25, StatChangeType.Fixed);
     }
 
     public void Heal(Stat stat, float healingAmount, StatChangeType changeType) => IncreaseStat(stat, healingAmount, changeType);

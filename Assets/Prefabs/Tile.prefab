@@ -154,3 +154,11 @@ MonoBehaviour:
   normal: {fileID: 21300000, guid: 2ffbe8687a75446858c5171a1f3de986, type: 3}
   highlighted: {fileID: 21300000, guid: 8db2e9f2ce3ce47b0b13642c87826421, type: 3}
   SR: {fileID: 5678288585813554257}
+  occupied: 0
+  characters:
+  - {fileID: 3389488174673828729, guid: c4ea2e4f60b3b459997c94467ce285b1, type: 3}
+  - {fileID: 6705859942469610168, guid: cb0d27b8c00264e57a00665cfdeccb73, type: 3}
+  - {fileID: 7163974732513599304, guid: 0deccb4508c2e4260b5f40faf2c7bbed, type: 3}
+  - {fileID: 9162054563387123081, guid: b71c0bf1c81cb4456860833df35c25fd, type: 3}
+  - {fileID: 1335659682920299060, guid: 8622c5e737ffc4e83828afdd3e2e468f, type: 3}
+  - {fileID: 6627031503089664208, guid: b1dcbfbc616a845bdaebcfea21e53e29, type: 3}
