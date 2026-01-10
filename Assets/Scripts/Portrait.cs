@@ -71,4 +71,10 @@ public class Portrait : MonoBehaviour
         disable.SetActive(true);
         disabled = true;
     }
+
+    public void EnablePortrait()
+    {
+        disable.SetActive(false);
+        disabled = false;
+    }
 }

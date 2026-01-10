@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
+    public bool enemyTile, gameStarted;
+    public bool placeable = false;
     public Sprite normal, highlighted;
     public SpriteRenderer SR;
     public bool occupied = false;
@@ -24,19 +26,28 @@ public class Tile : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        if(!occupied) SR.sprite = highlighted;
+        if (enemyTile || gameStarted) return;
+        if (!occupied)
+        {
+            SR.sprite = highlighted;
+            placeable = true;
+        }
     }
 
     private void OnMouseExit()
     {
-        if(!occupied) SR.sprite = normal;
+        if (enemyTile || gameStarted) return;
+        if (!occupied)
+        {
+            SR.sprite = normal;
+            placeable = false;
+        }
     }
 
     private void OnMouseDown()
     {
-        if(!occupied && Player.instance.selectedCharacter != CharacterClasses.None)
+        if(placeable && Player.instance.selectedCharacter != CharacterClasses.None)
         {
-            Debug.Log("here");
             foreach (GameObject character in characters)
             {
                 if(character.GetComponent<HeroController>().characterClass == Player.instance.selectedCharacter)
@@ -45,6 +56,8 @@ public class Tile : MonoBehaviour
                     hero.GetComponent<HeroController>().Init(CharacterType.Ally, gameObject);
                     Player.instance.AddAlly(hero);
                     SetOccupied(true);
+
+                    BattlePortraitManager.instance.AddPortrait(hero.GetComponent<HeroController>());
                     Player.instance.selectedCharacter = CharacterClasses.None;
                 }
             }
@@ -67,12 +80,19 @@ public class Tile : MonoBehaviour
         {
             SR.sprite = highlighted;
             this.occupied = true;
+            placeable = false;
         }
         else
         {
             SR.sprite = normal;
             this.occupied = false;
         }
+    }
+
+    public void Disable()
+    {
+        SR.sprite = normal;
+        gameStarted = true;
     }
 
 }

@@ -925,7 +925,7 @@ namespace NodeCanvas.Editor
             for ( var i = 0; i < currentGraph.canvasGroups.Count; i++ ) {
                 var group = currentGraph.canvasGroups[i];
                 var headerRect = new Rect(group.rect.x, group.rect.y, group.rect.width, 25);
-                var autoRect = new Rect(headerRect.xMax - 68, headerRect.y + 1, 68, headerRect.height);
+                var autoRect = new Rect(headerRect.xMax - 48, headerRect.y + 1, 68, headerRect.height);
                 var scaleRectBR = new Rect(group.rect.xMax - 20, group.rect.yMax - 20, 20, 20);
                 var scaleRectTL = new Rect(group.rect.x, headerRect.yMax, 20, 20);
 
@@ -949,7 +949,7 @@ namespace NodeCanvas.Editor
                     EditorGUIUtility.AddCursorRect(scaleRectTL, MouseCursor.ResizeUpLeft);
 
                     GUI.color = GUI.color.WithAlpha(0.25f);
-                    var newAutoValue = GUI.Toggle(autoRect, group.autoGroup, "Autosize");
+                    var newAutoValue = GUI.Toggle(autoRect, group.autoGroup, "Auto");
                     if ( newAutoValue != group.autoGroup ) {
                         UndoUtility.RecordObject(currentGraph, "AutoGroup");
                         group.autoGroup = newAutoValue;
@@ -961,12 +961,13 @@ namespace NodeCanvas.Editor
 
                 if ( !string.IsNullOrEmpty(group.notes) ) {
                     GUI.color = group.color.grayscale > 0.6f ? Color.black : Color.white;
+                    var notesRect = group.rect.ExpandBy(-5, -35, -5, -5);
                     if ( group.editState == CanvasGroup.EditState.EditingComments ) {
                         GUI.SetNextControlName("GroupComments" + i);
-                        group.notes = GUI.TextArea(group.rect.ExpandBy(-5, -35, -5, -5), group.notes, Styles.topLeftLabel);
+                        group.notes = GUI.TextArea(notesRect, group.notes, group.autoGroup ? Styles.wrapLabel : Styles.topLeftLabel);
                         GUI.FocusControl("GroupComments" + i);
                     } else {
-                        GUI.Label(group.rect.ExpandBy(-5, -35, -5, -5), group.notes, Styles.topLeftLabel);
+                        GUI.Label(notesRect, group.notes, group.autoGroup ? Styles.wrapLabel : Styles.topLeftLabel);
                     }
                     GUI.color = Color.white;
                 }
@@ -1091,6 +1092,14 @@ namespace NodeCanvas.Editor
                     pos.x = Mathf.Round(pos.x / GRID_SIZE) * GRID_SIZE;
                     pos.y = Mathf.Round(pos.y / GRID_SIZE) * GRID_SIZE;
                     node.position = pos;
+                }
+
+                for ( var i = 0; i < graph.canvasGroups.Count; i++ ) {
+                    var group = graph.canvasGroups[i];
+                    var rect = group.rect;
+                    rect.x = Mathf.Round(rect.x / GRID_SIZE) * GRID_SIZE;
+                    rect.y = Mathf.Round(rect.y / GRID_SIZE) * GRID_SIZE;
+                    group.rect = rect;
                 }
             }
         }

@@ -19,9 +19,10 @@ public class HeroController : MonoBehaviour
     public CharacterClasses characterClass;
     public GameObject initialTile;
     public TextMeshProUGUI classText;
-    public Slider healthBar, energyBar;
+    public Slider healthBar, energyBar, portraitHealthBar, portraitEnergyBar;
     public Sprite redName, blueName;
     public Image nameDisplay;
+    public BattlePortrait portrait;
 
     public void Init(CharacterType type, GameObject tile)
     {
@@ -30,6 +31,7 @@ public class HeroController : MonoBehaviour
         {
             gameObject.layer = LayerMask.NameToLayer("Allies");
             nameDisplay.sprite = blueName;
+            transform.Rotate(-Vector3.up);
         }
         else
         {
@@ -82,6 +84,12 @@ public class HeroController : MonoBehaviour
     {
         healthBar.value = GetHealthPercentage();
         energyBar.value = GetEnergyPercentage();
+
+        if(roundActive && type.Equals(CharacterType.Ally))
+        {
+            portraitHealthBar.value = GetHealthPercentage();
+            portraitEnergyBar.value = GetEnergyPercentage();
+        }
     }
 
     public void UpdateAnimation(HeroState state) => current = state;
@@ -277,7 +285,24 @@ public class HeroController : MonoBehaviour
 
     public void SetFrozen(bool frozen) => this.frozen = frozen;
 
-    public void SetRoundActive(bool active) => roundActive = active;
+    public void SetRoundActive(bool active)
+    {
+        roundActive = active;
+
+    }
+
+    public void SetPortrait(BattlePortrait battlePortrait)
+    {
+        portrait = battlePortrait;
+        portrait.SetCharacter(characterClass);
+        portraitHealthBar = portrait.healthSlider;
+        portraitEnergyBar = portrait.energySlider;
+    }
+
+    public void UltimateAnimation()
+    {
+        portrait.gameObject.GetComponent<Animator>().Play("Ultimate");
+    }
 }
 
 public enum Stat

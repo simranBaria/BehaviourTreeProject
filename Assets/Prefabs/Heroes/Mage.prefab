@@ -123,9 +123,12 @@ MonoBehaviour:
   classText: {fileID: 4072064927334782285}
   healthBar: {fileID: 2671705268506301155}
   energyBar: {fileID: 8762555075428981893}
+  portraitHealthBar: {fileID: 0}
+  portraitEnergyBar: {fileID: 0}
   redName: {fileID: 21300000, guid: 76cb87dd1d66d4d5793735ee397838fa, type: 3}
   blueName: {fileID: 21300000, guid: 893b452d0da774e32ac240355f08ea40, type: 3}
   nameDisplay: {fileID: 4830784237223248790}
+  portrait: {fileID: 0}
 --- !u!136 &7102823647595859682
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -459,6 +462,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1135602764245990040, guid: 24b53c4ca39f3ec4faf061a9c4a7086d, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1320490551067573640, guid: 24b53c4ca39f3ec4faf061a9c4a7086d, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1320490551067573640, guid: 24b53c4ca39f3ec4faf061a9c4a7086d, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -470,6 +481,10 @@ PrefabInstance:
     - target: {fileID: 1345478148266801693, guid: 24b53c4ca39f3ec4faf061a9c4a7086d, type: 3}
       propertyPath: m_Name
       value: HeroUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 6325600601023556204, guid: 24b53c4ca39f3ec4faf061a9c4a7086d, type: 3}
+      propertyPath: m_Direction
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

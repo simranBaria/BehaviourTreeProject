@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     public StartButton startButton;
     public bool roundStarted = false;
     public List<GameObject> spells;
+    public bool portraitsDisabled = false;
 
     private void Awake()
     {
@@ -47,6 +48,9 @@ public class Player : MonoBehaviour
 
     public void StartRound()
     {
+        preBattleUI.SetActive(false);
+        battleUI.SetActive(true);
+
         Collider[] foundEnemies = Physics.OverlapSphere(Vector3.zero, 1000, LayerMask.GetMask("Enemies"));
         foreach (Collider enemy in foundEnemies)
         {
@@ -54,7 +58,10 @@ public class Player : MonoBehaviour
             enemies.Add(enemy.gameObject);
         }
 
-        foreach (GameObject ally in allies) ally.GetComponent<HeroController>().SetRoundActive(true);
+        foreach (GameObject ally in allies)
+        {
+            ally.GetComponent<HeroController>().SetRoundActive(true);
+        }
 
         foreach(GameObject spell in spells)
         {
@@ -64,9 +71,6 @@ public class Player : MonoBehaviour
                 break;
             }
         }
-
-        preBattleUI.SetActive(false);
-        battleUI.SetActive(true);
     }
 
     public void EndRound(CharacterType winningTeam)
@@ -89,11 +93,14 @@ public class Player : MonoBehaviour
         {
             if(ally.GetComponent<HeroController>().characterClass == character)
             {
+                print("Here");
                 allies.Remove(ally);
                 ally.GetComponent<HeroController>().initialTile.GetComponent<Tile>().SetOccupied(false);
                 Destroy(ally);
                 selectedPortraits.Remove(portrait);
                 selectedCharacter = CharacterClasses.None;
+
+                if (portraitsDisabled) EnableRemaingPortraits();
                 break;
             }
         }
@@ -106,6 +113,17 @@ public class Player : MonoBehaviour
             if (!selectedPortraits.Contains(portrait)) portrait.GetComponent<Portrait>().DisablePortrait();
         }
         startButton.Enable(true);
+        portraitsDisabled = true;
+    }
+
+    public void EnableRemaingPortraits()
+    {
+        foreach (GameObject portrait in portraits)
+        {
+            if (!selectedPortraits.Contains(portrait)) portrait.GetComponent<Portrait>().EnablePortrait();
+        }
+        startButton.Enable(false);
+        portraitsDisabled = false;
     }
 
     public void AddAlly(GameObject ally)

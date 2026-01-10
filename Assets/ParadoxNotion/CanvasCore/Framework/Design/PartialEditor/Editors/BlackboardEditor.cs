@@ -311,7 +311,7 @@ namespace NodeCanvas.Editor
 
         ///<summary>Get a menu for variable</summary>
         GenericMenu GetVariableMenu(Variable data, int index) {
-            var menu = new GenericMenu();
+             var menu = new GenericMenu();
             if ( data.varType == typeof(VariableSeperator) ) {
                 menu.AddItem(new GUIContent("Rename"), false, () => { ( data.value as VariableSeperator ).isEditingName = true; });
                 if ( isPrefab ) {
@@ -324,6 +324,12 @@ namespace NodeCanvas.Editor
                         UndoUtility.SetDirty(contextObject);
                     });
                 }
+                menu.AddItem(new GUIContent("Exposed Public"), data.isExposedPublic, () =>
+                {
+                    UndoUtility.RecordObject(contextObject, "Modify Variable");
+                    data.isExposedPublic = !data.isExposedPublic;
+                    UndoUtility.SetDirty(contextObject);
+                });
                 return menu;
             }
 
