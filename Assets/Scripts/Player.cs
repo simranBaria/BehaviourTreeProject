@@ -89,7 +89,9 @@ public class Player : MonoBehaviour
 
     public void DeselectCharacter(CharacterClasses character, GameObject portrait)
     {
-        foreach(GameObject ally in allies)
+        selectedPortraits.Remove(portrait);
+
+        foreach (GameObject ally in allies)
         {
             if(ally.GetComponent<HeroController>().characterClass == character)
             {
@@ -97,7 +99,6 @@ public class Player : MonoBehaviour
                 allies.Remove(ally);
                 ally.GetComponent<HeroController>().initialTile.GetComponent<Tile>().SetOccupied(false);
                 Destroy(ally);
-                selectedPortraits.Remove(portrait);
                 selectedCharacter = CharacterClasses.None;
 
                 if (portraitsDisabled) EnableRemaingPortraits();
