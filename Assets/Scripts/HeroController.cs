@@ -303,6 +303,11 @@ public class HeroController : MonoBehaviour
     {
         portrait.gameObject.GetComponent<Animator>().Play("Ultimate");
     }
+
+    public void OnDestroy()
+    {
+        if (!roundActive && portrait != null) Destroy(portrait.gameObject);
+    }
 }
 
 public enum Stat
