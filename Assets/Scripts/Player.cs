@@ -123,20 +123,23 @@ public class Player : MonoBehaviour
     public void DeselectCharacter(CharacterClasses character, GameObject portrait)
     {
         selectedPortraits.Remove(portrait);
+        if (selectedCharacter == character) selectedCharacter = CharacterClasses.None;
 
-        foreach (GameObject ally in allies)
+        for (int i = allies.Count - 1; i >= 0; i--)
         {
-            if(ally.GetComponent<HeroController>().characterClass == character)
-            {
-                allies.Remove(ally);
-                ally.GetComponent<HeroController>().initialTile.GetComponent<Tile>().SetOccupied(false);
-                Destroy(ally);
-                selectedCharacter = CharacterClasses.None;
+            GameObject ally = allies[i];
+            HeroController hero = ally.GetComponent<HeroController>();
 
-                if (portraitsDisabled) EnableRemaingPortraits();
+            if (hero.characterClass == character)
+            {
+                allies.RemoveAt(i);
+                hero.initialTile.GetComponent<Tile>().SetOccupied(false);
+                Destroy(ally);
                 break;
             }
         }
+
+        if (portraitsDisabled && selectedPortraits.Count < 5) EnableRemaingPortraits();
     }
 
     public void DisableRemainingPortraits()

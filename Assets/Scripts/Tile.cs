@@ -26,7 +26,7 @@ public class Tile : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        if (enemyTile || gameStarted) return;
+        if (enemyTile || Player.instance.selectedCharacter == CharacterClasses.None) return;
         if (!occupied)
         {
             SR.sprite = highlighted;
@@ -36,7 +36,7 @@ public class Tile : MonoBehaviour
 
     private void OnMouseExit()
     {
-        if (enemyTile || gameStarted) return;
+        if (enemyTile) return;
         if (!occupied)
         {
             SR.sprite = normal;
