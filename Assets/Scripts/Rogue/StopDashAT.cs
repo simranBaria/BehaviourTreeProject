@@ -20,7 +20,10 @@ namespace NodeCanvas.Tasks.Actions {
 		//EndAction can be called from anywhere.
 		protected override void OnExecute() {
 			nmAgent = agent.gameObject.GetComponent<NavMeshAgent>();
-			nmAgent.speed = 3.5f;
+            nmAgent.isStopped = true;
+            nmAgent.ResetPath();
+            nmAgent.velocity = Vector3.zero;
+            nmAgent.speed = 3.5f;
 			agent.GetComponent<Collider>().enabled = true;
 			agent.gameObject.GetComponentInChildren<TrailRenderer>().enabled = false;
 			EndAction(true);

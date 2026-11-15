@@ -31,6 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2140246027542088487}
+  - {fileID: 7688564107973740190}
   m_Father: {fileID: 8285092642167725715}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1725774051860784536
@@ -82,7 +83,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7688564107973740190}
   - {fileID: 7375484228417884399}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -169,9 +169,12 @@ MonoBehaviour:
   classText: {fileID: 3322615606609354893}
   healthBar: {fileID: 3714732990075037475}
   energyBar: {fileID: 7999647867637524805}
+  portraitHealthBar: {fileID: 0}
+  portraitEnergyBar: {fileID: 0}
   redName: {fileID: 21300000, guid: 76cb87dd1d66d4d5793735ee397838fa, type: 3}
   blueName: {fileID: 21300000, guid: 893b452d0da774e32ac240355f08ea40, type: 3}
   nameDisplay: {fileID: 6166774358011082326}
+  portrait: {fileID: 0}
 --- !u!136 &3368257837463414149
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -305,7 +308,7 @@ Transform:
   m_GameObject: {fileID: 8793968081018604454}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -369,7 +372,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 8285092642167725715}
+    m_TransformParent: {fileID: 7375484228417884399}
     m_Modifications:
     - target: {fileID: 560631411497586018, guid: 24b53c4ca39f3ec4faf061a9c4a7086d, type: 3}
       propertyPath: m_AnchorMax.x
@@ -458,6 +461,10 @@ PrefabInstance:
     - target: {fileID: 1078376336165080017, guid: 24b53c4ca39f3ec4faf061a9c4a7086d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1135602764245990040, guid: 24b53c4ca39f3ec4faf061a9c4a7086d, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1320490551067573640, guid: 24b53c4ca39f3ec4faf061a9c4a7086d, type: 3}
       propertyPath: m_AnchorMax.x

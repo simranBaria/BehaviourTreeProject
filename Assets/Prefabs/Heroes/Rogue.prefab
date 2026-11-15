@@ -316,9 +316,12 @@ MonoBehaviour:
   classText: {fileID: 4390842463639885067}
   healthBar: {fileID: 2413449221386703525}
   energyBar: {fileID: 9076829009904704707}
+  portraitHealthBar: {fileID: 0}
+  portraitEnergyBar: {fileID: 0}
   redName: {fileID: 21300000, guid: 76cb87dd1d66d4d5793735ee397838fa, type: 3}
   blueName: {fileID: 21300000, guid: 893b452d0da774e32ac240355f08ea40, type: 3}
   nameDisplay: {fileID: 5145329750987146192}
+  portrait: {fileID: 0}
 --- !u!136 &4778443815903358803
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -565,7 +568,7 @@ Transform:
   m_GameObject: {fileID: 7800181792564603971}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -718,6 +721,10 @@ PrefabInstance:
     - target: {fileID: 1078376336165080017, guid: 24b53c4ca39f3ec4faf061a9c4a7086d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1135602764245990040, guid: 24b53c4ca39f3ec4faf061a9c4a7086d, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1320490551067573640, guid: 24b53c4ca39f3ec4faf061a9c4a7086d, type: 3}
       propertyPath: m_AnchorMax.x

@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
     public static Player instance = null;
     public LayerMask allHeroes;
-    public GameObject preBattleUI, battleUI;
+    public GameObject preBattleUI, battleUI, postBattleUI, playerTiles, enemyTiles;
+    public TextMeshProUGUI endResultsText, timerText;
+    public bool gameTied;
+    public int gameTimer;
+    public float remainingTime;
     public List<GameObject> allies, enemies;
     public CharacterClasses selectedCharacter = CharacterClasses.None;
     public List<GameObject> portraits, selectedPortraits;
@@ -25,6 +30,7 @@ public class Player : MonoBehaviour
     {
         allies = new();
         enemies = new();
+        remainingTime = gameTimer;
     }
 
     // Update is called once per frame
@@ -35,6 +41,12 @@ public class Player : MonoBehaviour
             if (allies.Count == 5 && !startButton.canStart) startButton.Enable(true);
             else if (allies.Count != 5 && startButton.canStart) startButton.Enable(false);
         }
+        else
+        {
+            remainingTime -= Time.deltaTime;
+            if (remainingTime < 0) EndRound(2);
+            else timerText.text = Mathf.RoundToInt(remainingTime).ToString();
+        }
     }
 
     public void RemoveHero(GameObject hero, CharacterType type)
@@ -42,8 +54,8 @@ public class Player : MonoBehaviour
         if (type == CharacterType.Ally) allies.Remove(hero);
         else enemies.Remove(hero);
 
-        if (allies.Count == 0) EndRound(CharacterType.Enemy);
-        else if (enemies.Count == 0) EndRound(CharacterType.Ally);
+        if (allies.Count == 0) EndRound(1);
+        else if (enemies.Count == 0) EndRound(0);
     }
 
     public void StartRound()
@@ -71,12 +83,33 @@ public class Player : MonoBehaviour
                 break;
             }
         }
+        
+        playerTiles.SetActive(false);
+        enemyTiles.SetActive(false);
+        roundStarted = true;
     }
 
-    public void EndRound(CharacterType winningTeam)
+    public void EndRound(int result)
     {
-        if (winningTeam == CharacterType.Ally) foreach (GameObject hero in allies) hero.GetComponent<HeroController>().SetRoundActive(false);
-        else foreach (GameObject hero in enemies) hero.GetComponent<HeroController>().SetRoundActive(false);
+        if (result == 0)
+        {
+            foreach (GameObject hero in allies) hero.GetComponent<HeroController>().SetRoundActive(false);
+            endResultsText.text = "You win!";
+        }
+        else if (result == 1)
+        {
+            foreach (GameObject hero in enemies) hero.GetComponent<HeroController>().SetRoundActive(false);
+            endResultsText.text = "You lost!";
+        }
+        else if (result == 2)
+        {
+            foreach (GameObject hero in allies) hero.GetComponent<HeroController>().SetRoundActive(false);
+            foreach (GameObject hero in enemies) hero.GetComponent<HeroController>().SetRoundActive(false);
+            endResultsText.text = "It's a tie!";
+        }
+        
+        battleUI.SetActive(false);
+        postBattleUI.SetActive(true);
     }
 
     public void SelectCharacter(CharacterClasses character, GameObject portrait)
@@ -95,7 +128,6 @@ public class Player : MonoBehaviour
         {
             if(ally.GetComponent<HeroController>().characterClass == character)
             {
-                print("Here");
                 allies.Remove(ally);
                 ally.GetComponent<HeroController>().initialTile.GetComponent<Tile>().SetOccupied(false);
                 Destroy(ally);

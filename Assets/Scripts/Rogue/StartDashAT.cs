@@ -24,7 +24,11 @@ namespace NodeCanvas.Tasks.Actions {
 			nmAgent = agent.gameObject.GetComponent<NavMeshAgent>();
 			nmAgent.speed = dashSpeed.value;
 			agent.gameObject.GetComponent<Collider>().enabled = false;
-			nmAgent.SetDestination(target.value);
+            nmAgent.isStopped = false;
+            nmAgent.autoBraking = true;
+            nmAgent.acceleration = 100f;
+            nmAgent.stoppingDistance = 1f;
+            nmAgent.SetDestination(target.value);
 			agent.gameObject.GetComponentInChildren<TrailRenderer>().enabled = true;
             EndAction(true);
 		}
