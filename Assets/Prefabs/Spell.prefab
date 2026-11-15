@@ -358,6 +358,7 @@ MonoBehaviour:
   allySide: {fileID: 0}
   statusEffecter: {fileID: 6085432712240232908, guid: f73897e3e86a1430eaba784a90c63e2a, type: 3}
   statBooster: {fileID: 6572345217399917740, guid: 945467f325f3e42e5aa00c0db2ae9a0f, type: 3}
+  spellImage: {fileID: 2999275919943352449}
 --- !u!1 &7035255369141715821
 GameObject:
   m_ObjectHideFlags: 0

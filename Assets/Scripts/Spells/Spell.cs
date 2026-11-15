@@ -12,6 +12,7 @@ public class Spell : MonoBehaviour
     public LayerMask targetLayer;
     public float cooldown;
     public GameObject enemySide, allySide, statusEffecter, statBooster;
+    public Image spellImage;
 
     float timer;
     bool spellReady;
@@ -21,6 +22,7 @@ public class Spell : MonoBehaviour
     {
         timer = 0;
         cooldownBar.maxValue = cooldown;
+        spellImage.color = Color.grey;
         spellReady = false;
     }
 
@@ -28,7 +30,11 @@ public class Spell : MonoBehaviour
     void Update()
     {
         if (!spellReady) timer += Time.deltaTime;
-        if (timer >= cooldown) spellReady = true;
+        if (timer >= cooldown)
+        {
+            spellReady = true;
+            spellImage.color = Color.white;
+        }
 
         cooldownBar.value = timer;
     }
@@ -57,6 +63,7 @@ public class Spell : MonoBehaviour
             }
 
             timer = 0;
+            spellImage.color = Color.grey;
             spellReady = false;
         }
         

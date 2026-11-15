@@ -153,7 +153,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HP: 2900
   DEF: 75
-  ATK: 250
+  ATK: 400
   ENR: 1000
   health: 0
   defense: 0
